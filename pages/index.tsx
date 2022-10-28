@@ -1,86 +1,86 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { BiMailSend } from "react-icons/bi";
+import Header from '../components/Header'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({categories, products}: any) => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Shopee Clone Indonesia</title>
+        <link rel="icon" href="/icon.png" />
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <Header />
+      <main className="flex w-full flex-1 flex-col py-10 space-y-5 md:px-20 px-3">
+        <div className="flex flex-col shadow-lg">
+          <div className="w-full bg-gray-200 p-2">
+            <h1 className="uppercase tracking-wider font-bold">kategori</h1>
+          </div>
+          <div className="flex flex-row md:overflow-hidden overflow-x-scroll items-center space-x-5 md:space-y-5 p-5">
+            {categories.map((item: any) => (
+              <div className="w-36 bg-gray-100 h-20 p-4 flex flex-col items-center justify-center text-center transition-all hover:bg-gray-200 cursor-pointer">
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col shadow-lg">
+          <div className="w-full bg-gray-200 p-2">
+            <h1 className="uppercase tracking-wider font-bold">best sales</h1>
+          </div>
+          <div className="grid md:grid md:grid-cols-6 grid-cols-2 items-center space-y-5 p-5">
+            {products?.map((item: any) => (
+              <div
+                key={item.id}
+                className="w-40 bg-gray-100 h-72 p-4 flex flex-col space-y-2 items-center justify-center text-center transition-all hover:bg-gray-200 cursor-pointer"
+              >
+                <img
+                  src={item.image}
+                  alt=""
+                  className="w-28 h-32 object-contain"
+                />
+                <span className="font-bold text-xs">{item.title}</span>
+                <span className="text-[#e67931]">USD {item.price}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <h1 className="uppercase tracking-[10px] font-bold text-lg">
+            newsletter
+          </h1>
+          <p>Dapatkan info seputar promo dan juga tawaran menarik lainnya</p>
+          <div className="md:w-fit w-full">
+            <div className="flex flex-row md:w-[30rem] w-full h-[50px] border border-[#ff6600] items-center bg-white rounded-full shadow-lg">
+              <input
+                type="text"
+                className="w-full h-[30px] outline-none px-2 ml-2"
+                placeholder="Email anda"
+              />
+              <BiMailSend className="inline-flex rounded-full w-9 h-8 py-2 bg-[#ff6600] text-white mr-2 cursor-pointer" />
+            </div>
+          </div>
         </div>
       </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
+      <footer className=""></footer>
     </div>
-  )
+  );
 }
 
 export default Home
+
+export async function getStaticProps() {
+  const categories = await fetch("https://fakestoreapi.com/products/categories").then(
+    (res) => res.json()
+  );
+
+  const products = await fetch("https://fakestoreapi.com/products").then(
+    (res) => res.json()
+  );
+  return {
+    props: {
+      categories,
+      products
+    }
+  }
+}
